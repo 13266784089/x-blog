@@ -2,16 +2,20 @@
   <article class="article-list">
     <div class="article-content-box">
       <p class="publish-time">
-        2017-2-13 发布
+        {{article.time}} 发布
       </p>
       <div class="article-content">
-        <h3 class="article-title">Webpack2异步加载及分包套路</h3>
+        <h3 class="article-title">{{article.title}}</h3>
         <p class="article-des">
-          大家快来围观啊
+          {{article.des}}
         </p>
       </div>
       <div class="article-tags">
-        js html
+        <ul class="tag-ul">
+          <li class="tag-li" v-for="item in article.tags">
+            <router-link :to="{name: 'tagDetail', params: {tag: item}}">{{item}}</router-link>
+          </li>
+        </ul>
       </div>
     </div>
     <div class="article-img-box">
@@ -25,14 +29,22 @@
   const COMPONENT_NAME = 'article-list';
 
   export default {
-    name: COMPONENT_NAME
+    name: COMPONENT_NAME,
+    props: [
+      "article"
+    ]
   }
 </script>
 <style lang="less">
+  @import '../less/variable.less'; 
+
   .article-list {
     display: flex;
-    height: 300px;
+    max-width: 660px;
+    min-height: 250px;
     padding: 10px 20px;
+    margin-left: auto;
+    margin-right: auto;
     margin-bottom: 20px;
     border: 1px solid #e3e3e3;
   }
@@ -41,7 +53,6 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    height: 100%;
   }
   
   .publish-time {
@@ -67,12 +78,7 @@
     line-height: 1.8;
     opacity: .8;
   }
-  
-  .article-tags {
-    height: 40px;
-    line-height: 40px;
-  }
-  
+    
   .article-img-box {
     display: flex;
     justify-content: center;
@@ -86,4 +92,31 @@
       max-height: 150px;
     }
   }
-</style>
+
+  .tag-ul {
+    display: flex;
+    .tag-li {
+      width: 40px;
+      height: 20px;
+      line-height: 20px;
+      font-size: 12px;
+      text-align: center;
+      margin-right: 8px;
+      background: @html-tag;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      opacity: .7;
+      transition: opacity .5s ease-in;
+      a {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        color: #fff;
+      }
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+  </style>

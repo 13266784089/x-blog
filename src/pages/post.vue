@@ -1,9 +1,11 @@
 <template>
-  <div class="post-page">
+  <article class="post-page">
     <article-list 
-      v-for="art in articleList">
+      v-for="art in articleList"
+      :article="art"
+      >
     </article-list>
-  </div>
+  </article>
 </template>
 
 <script>
@@ -15,8 +17,14 @@
     name: COMPONENT_NAME,
     data() {
       return {
-        articleList: [1, 2, 3]
+        articleList: []
       }
+    },
+    mounted() {
+      this.http.get('/api/post')
+        .then(res => {
+          this.articleList = res.data.data;
+        })
     },
     components: {
       ArticleList
@@ -26,6 +34,6 @@
 
 <style lang="less">
   .post-page {
-    padding: 0 150px;
+    padding: 30px;
   }
 </style>
